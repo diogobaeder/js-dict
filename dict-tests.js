@@ -71,6 +71,7 @@ test("pop element without a default value", function(){
 test("pop element with a default value", function(){
     var testDict = dict({'one': 'foo', 'two': 'bar'});
     
+    equals(testDict.pop('three'), null);
     equals(testDict.pop('three', "didn't find"), "didn't find");
     equals(testDict.keys().length, 2);
 });
