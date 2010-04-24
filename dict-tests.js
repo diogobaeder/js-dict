@@ -55,3 +55,22 @@ test("get dict items", function(){
     
     same(testDict.items(), [['one', 'foo'], ['two', 'bar']]);
 });
+
+module("dict mutation");
+
+test("pop element without a default value", function(){
+    var testDict = dict({'one': 'foo', 'two': 'bar'});
+    
+    equals(testDict.pop('one'), 'foo');
+    equals(testDict.pop('two'), 'bar');
+    equals(testDict.has_key('one'), false);
+    equals(testDict.has_key('two'), false);
+    equals(testDict.keys().length, 0);
+});
+
+test("pop element with a default value", function(){
+    var testDict = dict({'one': 'foo', 'two': 'bar'});
+    
+    equals(testDict.pop('three', "didn't find"), "didn't find");
+    equals(testDict.keys().length, 2);
+});
