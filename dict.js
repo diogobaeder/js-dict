@@ -1,6 +1,7 @@
 (function(){
 // Auxiliary function to apply a function to each non-native property
 function _walkKeys(obj, callback) {
+    var prop;
     for (prop in obj) {
         if (obj.hasOwnProperty(prop)) {
             callback(prop);
@@ -38,21 +39,21 @@ PythonDict.prototype = {
     },
     keys: function() {
         var keys = [];
-        _walkKeys(this, function(){
+        _walkKeys(this, function(prop){
             keys.push(prop);
         });
         return keys;
     },
     values: function() {
         var values = [], that = this;
-        _walkKeys(this, function(){
+        _walkKeys(this, function(prop){
             values.push(that[prop]);
         });
         return values;
     },
     items: function() {
         var items = [], that = this;
-        _walkKeys(this, function(){
+        _walkKeys(this, function(prop){
             items.push([prop, that[prop]]);
         });
         return items;
@@ -67,6 +68,26 @@ PythonDict.prototype = {
             return val;
         }
         return defaultVal || null;
+    },
+    clear: function() {
+        var that = this;
+        _walkKeys(this, function(prop){
+            that.pop(prop);
+        });
+    },
+    copy: function() {
+        return new PythonDict(this);
     }
 };
+
+PythonDict.fromkeys = function(keys, val) {
+    var newDict = new PythonDict(),
+        i, length, key;
+    if (val === undefined) val = null;
+    for (i = 0, length = keys.length; i < length; i++) {
+        newDict[keys[i]] = val;
+    }
+    return newDict;
+};
+dict.fromkeys = PythonDict.fromkeys;
 })();

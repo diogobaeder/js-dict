@@ -75,3 +75,41 @@ test("pop element with a default value", function(){
     equals(testDict.pop('three', "didn't find"), "didn't find");
     equals(testDict.keys().length, 2);
 });
+
+test("clear all items", function(){
+    var testDict = dict({'one': 'foo', 'two': 'bar'});
+    
+    testDict.clear();
+    
+    equals(testDict.keys().length, 0);
+});
+
+module("dict copying");
+
+test("copy all items", function(){
+    var testDict = dict({'one': 'foo', 'two': 'bar'}),
+        testDictCopy = testDict.copy();
+    
+    testDict['three'] = 'baz';
+    
+    equals(testDict.get('one'), 'foo');
+    equals(testDictCopy.get('one'), 'foo');
+    equals(testDict.get('three'), 'baz');
+    equals(testDictCopy.get('three'), null);
+});
+
+test("new dict from keys without a default value", function(){
+    var testDict = dict.fromkeys(['one', 'two']);
+    
+    equals(testDict.keys().length, 2);
+    equals(testDict.get('one'), null);
+    equals(testDict.get('two'), null);
+});
+
+test("new dict from keys with a default value", function(){
+    var testDict = dict.fromkeys(['one', 'two'], 'foo');
+    
+    equals(testDict.keys().length, 2);
+    equals(testDict.get('one'), 'foo');
+    equals(testDict.get('two'), 'foo');
+});
