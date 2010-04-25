@@ -77,6 +77,12 @@ PythonDict.prototype = {
     },
     copy: function() {
         return new PythonDict(this);
+    },
+    update: function(otherDict) {
+        var that = this;
+        _walkKeys(otherDict, function(prop){
+            that[prop] = otherDict[prop];
+        });
     }
 };
 

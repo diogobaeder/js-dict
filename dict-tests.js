@@ -38,6 +38,8 @@ test("verify key in dict", function(){
     equals(testDict.has_key('three'), false);
 });
 
+module("collection retrieval");
+
 test("get dict keys", function(){
     var testDict = dict({'one': 'foo', 'two': 'bar'});
     
@@ -82,6 +84,18 @@ test("clear all items", function(){
     testDict.clear();
     
     equals(testDict.keys().length, 0);
+});
+
+test("update from items of another dict", function(){
+    var testDict = dict({'one': 'foo', 'two': 'bar'}),
+        anotherDict = dict({'one': 'foo2', 'three': 'baz'});
+    
+    testDict.update(anotherDict);
+    
+    equals(testDict.keys().length, 3);
+    equals(testDict.get('one'), 'foo2');
+    equals(testDict.get('two'), 'bar');
+    equals(testDict.get('three'), 'baz');
 });
 
 module("dict copying");
